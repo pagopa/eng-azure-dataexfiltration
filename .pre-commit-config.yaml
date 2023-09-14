@@ -1,0 +1,13 @@
+repos:
+  - repo: https://github.com/antonbabenko/pre-commit-terraform
+    # rev: v1.83.2
+    rev: ea0b9e34edb96834c92a10b5ed313c520cd9aa50
+    files: ^infra/
+    hooks:
+      - id: terraform_fmt
+      - id: terraform_tfsec
+      - id: terraform_validate
+        args:
+          - --init-args=-lockfile=readonly
+          - --args=-json
+          - --args=-no-color
