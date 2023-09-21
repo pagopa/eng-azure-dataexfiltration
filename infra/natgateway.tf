@@ -3,7 +3,7 @@ module "nat_gw" {
   name                = format("%s-natgateway", local.project)
   location            = var.location
   subnet_ids          = []
-  resource_group_name = azurerm_resource_group.rg_vnet.name
+  resource_group_name = azurerm_resource_group.vnet.name
   zones               = [1] # nat gws do not support multi-AZ
   tags                = var.tags
 }
