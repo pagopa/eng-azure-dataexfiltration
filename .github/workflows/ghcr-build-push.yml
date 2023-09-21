@@ -1,11 +1,6 @@
 name: ghcr-build-push
 on:
   workflow_dispatch:
-    inputs:
-      tag:
-        required: true
-        type: string
-        default: dex
     
 jobs:
   ghcr-build-push:
@@ -39,8 +34,6 @@ jobs:
           images: ghcr.io/${{ github.repository }}
           tags: |
             latest
-            ${{ inputs.tag }}
-            type=ref,event=branch
             type=sha  
       
       - name: Build and push

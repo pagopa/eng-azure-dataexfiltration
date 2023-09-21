@@ -87,17 +87,17 @@ variable "dns_zone_product_prefix" {
 
 variable "cidr_vnet" {
   type        = list(string)
-  description = "Address prefixes vnet frontend"
+  description = "Address prefixes for vnet"
   default     = null
 }
 
 #
-# appgateway
+# appgw
 #
 
-variable "cidr_appgateway_subnet" {
+variable "cidr_appgw_subnet" {
   type        = list(string)
-  description = "Address prefixes subnet for appgateway"
+  description = "Address prefixes subnet for appgw"
   default     = null
 }
 
@@ -117,6 +117,16 @@ variable "cidr_apim_subnet" {
 
 variable "cidr_appservice_subnet" {
   type        = list(string)
-  description = "Address prefixes subnet for apim"
+  description = "Address prefixes subnet for appservice"
+  default     = null
+}
+
+#
+# vpn
+#
+
+variable "cidr_vpn_subnet" {
+  type        = list(string)
+  description = "Address prefixes subnet for vpn"
   default     = null
 }

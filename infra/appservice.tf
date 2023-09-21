@@ -8,7 +8,7 @@ module "appservice_snet" {
   source                                    = "./.terraform/modules/v3/subnet/"
   name                                      = format("%s-appservice-snet", local.project)
   address_prefixes                          = var.cidr_appservice_subnet
-  resource_group_name                       = azurerm_resource_group.rg_vnet.name
+  resource_group_name                       = azurerm_resource_group.vnet.name
   virtual_network_name                      = module.vnet.name
   private_endpoint_network_policies_enabled = true
   service_endpoints                         = ["Microsoft.Web"]
@@ -34,7 +34,7 @@ module "appservice" {
   client_cert_enabled = false
   https_only          = false
   always_on           = false
-  docker_image        = "nginxdemos/hello"
+  docker_image        = "ghcr.io/pagopa/eng-data-exfiltration-demo"
   docker_image_tag    = "latest"
   #health_check_path   = "/status"
   app_settings = {
@@ -47,7 +47,7 @@ module "appservice" {
     # DOCKER_REGISTRY_SERVER_USERNAME = module.acr[0].admin_username
     # DOCKER_REGISTRY_SERVER_PASSWORD = module.acr[0].admin_password
   }
-  allowed_subnets = [module.apim_snet.id, module.app_gw_snet.id]
+  allowed_subnets = [module.apimanager_snet.id, module.app_gw_snet.id]
   allowed_ips     = []
   subnet_id       = module.appservice_snet.id
   tags            = var.tags
