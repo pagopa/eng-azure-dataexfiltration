@@ -8,21 +8,33 @@ import (
 	"net/http"
 )
 
-func poke(host string) error {
-	fmt.Printf("DNS resolution of %s...\n", host)
+func poke(host string, host_override string) error {
+
+	client := &http.Client{}
+
+	fmt.Printf("[app] dns resolution of %s...\n", host)
 	ips, err := net.LookupIP(host)
 	if err != nil {
 		return err // re-raise
 	}
-	fmt.Printf("poking %s with some HTTP traffic...\n", ips[0].String()) // TODO
-	res, err := http.Get(fmt.Sprintf("http://%s/", host))
+	fmt.Printf("[app] now poking %s (%s) with some HTTP traffic...\n", host, ips[0].String())
+	req, err := http.NewRequest("GET", fmt.Sprintf("http://%s/", host), nil)
+	if err != nil {
+		return err // re-raise
+	}
+	if host_override != "" {
+		req.Host = host_override
+	}
+	res, err := client.Do(req)
 	if err != nil {
 		return err // re-raise
 	}
 	defer res.Body.Close()
 	body, err := ioutil.ReadAll(res.Body)
 	// print the returned body
+	fmt.Println("\n ====== [app] response body ====== \n")
 	fmt.Printf("%s", string(body))
+	fmt.Println("\n ====== \n")
 	// for ICMP or other protocols, usually that requires a raw socket, needing root privs
 	// this looks unlikely in our deployments... skipping for now
 	return err
@@ -30,8 +42,9 @@ func poke(host string) error {
 
 func handler(w http.ResponseWriter, r *http.Request) {
 	host := r.URL.Query().Get("host")
+	host_override := r.URL.Query().Get("host_override")
 	if host != "" {
-		err := poke(host)
+		err := poke(host, host_override)
 		if err != nil {
 			fmt.Println("ouch, something went wrong :wave:")
 		}
