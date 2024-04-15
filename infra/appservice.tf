@@ -47,7 +47,8 @@ module "appservice" {
     # DOCKER_REGISTRY_SERVER_USERNAME = module.acr[0].admin_username
     # DOCKER_REGISTRY_SERVER_PASSWORD = module.acr[0].admin_password
   }
-  allowed_subnets = [module.apimanager_snet.id, module.app_gw_snet.id]
+  # allowed_subnets = [module.apimanager_snet.id, module.app_gw_snet.id]
+  allowed_subnets = []
   allowed_ips     = []
   subnet_id       = module.appservice_snet.id
   tags            = var.tags

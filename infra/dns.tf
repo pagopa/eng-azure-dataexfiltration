@@ -39,6 +39,7 @@ resource "azurerm_private_dns_zone_virtual_network_link" "private_dns_vnet_link"
   virtual_network_id    = module.vnet.id
 }
 
+/*
 resource "azurerm_private_dns_a_record" "private_apim" {
   name                = format("%s-apim", local.project)
   zone_name           = azurerm_private_dns_zone.private_dns_zone.name
@@ -46,3 +47,4 @@ resource "azurerm_private_dns_a_record" "private_apim" {
   ttl                 = 30
   records             = module.apimanager.private_ip_addresses
 }
+*/

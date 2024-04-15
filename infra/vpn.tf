@@ -9,7 +9,7 @@ module "vpn_snet" {
 }
 
 data "azuread_application" "vpn_app" {
-  display_name = format("%s-app-vpn", local.project)
+  display_name = format("%s-app-vpn", local.old_project)
 }
 
 module "vpn" {
@@ -17,7 +17,8 @@ module "vpn" {
   name                = format("%s-vpn", local.project)
   resource_group_name = azurerm_resource_group.vnet.name
   sku                 = "VpnGw1"
-  pip_sku             = "Basic"
+  pip_sku             = "Standard"
+  pip_allocation_method = "Static"
   location            = var.location
   subnet_id           = module.vpn_snet.id
   vpn_client_configuration = [

@@ -4,7 +4,7 @@
 
 env_short      = "d"
 env            = "dev"
-prefix         = "dex"
+prefix         = "dex2"
 location       = "westeurope"
 location_short = "weu"
 domain         = "core"
