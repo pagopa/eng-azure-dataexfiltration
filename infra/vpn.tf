@@ -1,6 +1,6 @@
 module "vpn_snet" {
   source                                    = "./.terraform/modules/v3/subnet/"
-  name                                      = "GatewaySubnet"
+  name                                      = "GatewaySubnet" # must be exactly this value
   address_prefixes                          = var.cidr_vpn_subnet
   resource_group_name                       = azurerm_resource_group.vnet.name
   virtual_network_name                      = module.vnet.name
@@ -13,14 +13,14 @@ data "azuread_application" "vpn_app" {
 }
 
 module "vpn" {
-  source              = "./.terraform/modules/v3/vpn_gateway/"
-  name                = format("%s-vpn", local.project)
-  resource_group_name = azurerm_resource_group.vnet.name
-  sku                 = "VpnGw1"
-  pip_sku             = "Standard"
+  source                = "./.terraform/modules/v3/vpn_gateway/"
+  name                  = format("%s-vpn", local.project)
+  resource_group_name   = azurerm_resource_group.vnet.name
+  sku                   = "VpnGw1"
+  pip_sku               = "Standard"
   pip_allocation_method = "Static"
-  location            = var.location
-  subnet_id           = module.vpn_snet.id
+  location              = var.location
+  subnet_id             = module.vpn_snet.id
   vpn_client_configuration = [
     {
       address_space         = ["172.16.1.0/24"],

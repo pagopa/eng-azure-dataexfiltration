@@ -4,6 +4,10 @@ terraform {
       source  = "hashicorp/azurerm"
       version = "=3.71.0"
     }
+    azapi = {
+      source = "Azure/azapi"
+      version = "=1.12.1"
+    }
   }
   backend "azurerm" {}
 }
@@ -20,6 +24,8 @@ provider "azurerm" {
   }
   subscription_id = "ac17914c-79bf-48fa-831e-1359ef74c1d5"
 }
+
+provider "azapi" {}
 
 module "v3" {
   # source            = "git::https://github.com/pagopa/terraform-azurerm-v3.git?ref=v7.5.0"
