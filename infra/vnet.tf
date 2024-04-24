@@ -56,14 +56,37 @@ module "vnet_peering_main_vnet_firewall_vnet" {
   target_use_remote_gateways       = true # needed by vpn gateway for enabling routing from vnet to vnet_integration
 }
 
-# associate to each main vnet subnet a new route table
+# declare firewall route table
+resource "azurerm_route_table" "to_firewall" {
+  name                = format("%s-to-firewall-rt", local.project)
+  location            = azurerm_resource_group.vnet.location
+  resource_group_name = azurerm_resource_group.vnet.name
+  route {
+    name                   = "to-firewall"
+    address_prefix         = "0.0.0.0/0"
+    next_hop_type          = "VirtualAppliance" # firewall is considered a virtual appliance
+    next_hop_in_ip_address = azurerm_firewall.firewall.ip_configuration[0].private_ip_address
+  }
+}
 
-data "azapi_resource_list" "listSubnetsByVnet" {
+# associate to each main vnet subnet a firewall route table
+
+data "azapi_resource_list" "list_vnet_subnets" {
   type                   = "Microsoft.Network/virtualNetworks/subnets@2021-02-01"
   parent_id              = module.vnet.id
   response_export_values = ["*"]
 }
 
 output "subnets" {
-  value = data.azapi_resource_list.listSubnetsByVnet.output
+  value = jsondecode(data.azapi_resource_list.list_vnet_subnets.output).value[*].id
+}
+
+locals {
+  vnet_subnets = toset([for each in jsondecode(data.azapi_resource_list.list_vnet_subnets.output).value[*].id : each if !endswith(each, "GatewaySubnet")])
+}
+
+resource "azurerm_subnet_route_table_association" "vnet_to_firewall" {
+  for_each       = local.vnet_subnets
+  subnet_id      = each.key
+  route_table_id = azurerm_route_table.to_firewall.id
 }

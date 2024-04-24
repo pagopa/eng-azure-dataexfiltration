@@ -5,7 +5,6 @@ module "vpn_snet" {
   resource_group_name                       = azurerm_resource_group.vnet.name
   virtual_network_name                      = module.vnet.name
   private_endpoint_network_policies_enabled = true
-  service_endpoints                         = ["Microsoft.Web"]
 }
 
 data "azuread_application" "vpn_app" {

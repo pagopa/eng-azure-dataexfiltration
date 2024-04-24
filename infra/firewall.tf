@@ -12,6 +12,7 @@ resource "azurerm_public_ip" "firewall" {
   resource_group_name = azurerm_resource_group.firewall_vnet.name
   allocation_method   = "Static"
   sku                 = "Standard"
+  zones               = [1, 2, 3]
 }
 
 resource "azurerm_firewall" "firewall" {
@@ -20,6 +21,7 @@ resource "azurerm_firewall" "firewall" {
   resource_group_name = azurerm_resource_group.firewall_vnet.name
   sku_name            = "AZFW_VNet"
   sku_tier            = "Standard"
+  zones               = [1, 2, 3]
 
   ip_configuration {
     name                 = "configuration"
