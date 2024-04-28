@@ -27,7 +27,7 @@ provider "azurerm" {
 
 provider "azapi" {}
 
-module "v3" {
+module "__v3__" {
   # source            = "git::https://github.com/pagopa/terraform-azurerm-v3.git?ref=v7.5.0"
   source = "git::github.com/pagopa/terraform-azurerm-v3.git?ref=154b3975a3d7f96a2f314b1215398c36451b5686"
 }

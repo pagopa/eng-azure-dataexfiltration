@@ -1,5 +1,5 @@
 module "firewall_snet" {
-  source               = "./.terraform/modules/v3/subnet/"
+  source               = "./.terraform/modules/__v3__/subnet/"
   name                 = "AzureFirewallSubnet" # must be exactly this value
   address_prefixes     = var.cidr_firewall_subnet
   resource_group_name  = azurerm_resource_group.firewall_vnet.name

@@ -1,5 +1,5 @@
 module "vpn_snet" {
-  source                                    = "./.terraform/modules/v3/subnet/"
+  source                                    = "./.terraform/modules/__v3__/subnet/"
   name                                      = "GatewaySubnet" # must be exactly this value
   address_prefixes                          = var.cidr_vpn_subnet
   resource_group_name                       = azurerm_resource_group.vnet.name
@@ -12,7 +12,7 @@ data "azuread_application" "vpn_app" {
 }
 
 module "vpn" {
-  source                = "./.terraform/modules/v3/vpn_gateway/"
+  source                = "./.terraform/modules/__v3__/vpn_gateway/"
   name                  = format("%s-vpn", local.project)
   resource_group_name   = azurerm_resource_group.vnet.name
   sku                   = "VpnGw1"

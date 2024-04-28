@@ -7,7 +7,7 @@ resource "azurerm_resource_group" "vnet" {
 }
 
 module "vnet" {
-  source              = "./.terraform/modules/v3/virtual_network/"
+  source              = "./.terraform/modules/__v3__/virtual_network/"
   name                = format("%s-vnet", local.project)
   location            = azurerm_resource_group.vnet.location
   resource_group_name = azurerm_resource_group.vnet.name
@@ -33,7 +33,7 @@ resource "azurerm_resource_group" "firewall_vnet" {
 }
 
 module "firewall_vnet" {
-  source              = "./.terraform/modules/v3/virtual_network/"
+  source              = "./.terraform/modules/__v3__/virtual_network/"
   name                = format("%s-firewall-vnet", local.project)
   location            = azurerm_resource_group.firewall_vnet.location
   resource_group_name = azurerm_resource_group.firewall_vnet.name
@@ -45,7 +45,7 @@ module "firewall_vnet" {
 
 module "vnet_peering_main_vnet_firewall_vnet" {
   location                         = var.location
-  source                           = "./.terraform/modules/v3/virtual_network_peering/"
+  source                           = "./.terraform/modules/__v3__/virtual_network_peering/"
   source_resource_group_name       = azurerm_resource_group.vnet.name
   source_virtual_network_name      = module.vnet.name
   source_remote_virtual_network_id = module.vnet.id

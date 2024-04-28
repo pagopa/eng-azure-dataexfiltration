@@ -23,6 +23,13 @@ if ! printf "%s" "$envs" | grep -w "$env" > /dev/null; then
   exit 1
 fi
 
+# shellcheck source=/dev/null
+source "./env/$env/backend.ini"
+
+az account set -s "${subscription}"
+
+echo "SUBSCRIPTION: ${subscription}"
+
 if printf "%s" "init plan apply refresh import output state taint destroy console validate fmt" | grep -w "$action" > /dev/null; then
   if [[ "$action" = "init" ]]; then
     terraform "$action" -backend-config="./env/$env/backend.tfvars" "${other[@]}"
@@ -36,7 +43,7 @@ if printf "%s" "init plan apply refresh import output state taint destroy consol
     if ((${#other[@]})); then
         terraform "$action" "${other[@]}"
     else
-        terraform "$action" 
+        terraform "$action"
     fi
   else
     # init terraform backend

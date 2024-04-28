@@ -5,7 +5,7 @@ resource "azurerm_resource_group" "rg_appservice" {
 }
 
 module "appservice_snet" {
-  source                                    = "./.terraform/modules/v3/subnet/"
+  source                                    = "./.terraform/modules/__v3__/subnet/"
   name                                      = format("%s-appservice-snet", local.project)
   address_prefixes                          = var.cidr_appservice_subnet
   resource_group_name                       = azurerm_resource_group.vnet.name
@@ -25,7 +25,7 @@ resource "azurerm_service_plan" "app_docker" {
 }
 
 module "appservice" {
-  source              = "./.terraform/modules/v3/app_service/"
+  source              = "./.terraform/modules/__v3__/app_service/"
   resource_group_name = azurerm_resource_group.rg_appservice.name
   location            = var.location
   plan_type           = "external"
