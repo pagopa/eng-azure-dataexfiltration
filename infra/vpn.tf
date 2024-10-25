@@ -1,25 +1,25 @@
 module "vpn_snet" {
-  source                                    = "./.terraform/modules/v3/subnet/"
-  name                                      = "GatewaySubnet"
+  source                                    = "./.terraform/modules/__v3__/subnet/"
+  name                                      = "GatewaySubnet" # must be exactly this value
   address_prefixes                          = var.cidr_vpn_subnet
   resource_group_name                       = azurerm_resource_group.vnet.name
   virtual_network_name                      = module.vnet.name
   private_endpoint_network_policies_enabled = true
-  service_endpoints                         = ["Microsoft.Web"]
 }
 
 data "azuread_application" "vpn_app" {
-  display_name = format("%s-app-vpn", local.project)
+  display_name = format("dvopla-%s-app-vpn", var.env_short) # subscription vpn app
 }
 
 module "vpn" {
-  source              = "./.terraform/modules/v3/vpn_gateway/"
-  name                = format("%s-vpn", local.project)
-  resource_group_name = azurerm_resource_group.vnet.name
-  sku                 = "VpnGw1"
-  pip_sku             = "Basic"
-  location            = var.location
-  subnet_id           = module.vpn_snet.id
+  source                = "./.terraform/modules/__v3__/vpn_gateway/"
+  name                  = format("%s-vpn", local.project)
+  resource_group_name   = azurerm_resource_group.vnet.name
+  sku                   = "VpnGw1"
+  pip_sku               = "Standard"
+  pip_allocation_method = "Static"
+  location              = var.location
+  subnet_id             = module.vpn_snet.id
   vpn_client_configuration = [
     {
       address_space         = ["172.16.1.0/24"],

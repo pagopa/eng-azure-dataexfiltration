@@ -91,6 +91,12 @@ variable "cidr_vnet" {
   default     = null
 }
 
+variable "firewall_cidr_vnet" {
+  type        = list(string)
+  description = "Address prefixes for firewall vnet"
+  default     = null
+}
+
 #
 # appgw
 #
@@ -128,5 +134,15 @@ variable "cidr_appservice_subnet" {
 variable "cidr_vpn_subnet" {
   type        = list(string)
   description = "Address prefixes subnet for vpn"
+  default     = null
+}
+
+#
+# firewall
+#
+
+variable "cidr_firewall_subnet" {
+  type        = list(string)
+  description = "Address prefixes subnet for firewall"
   default     = null
 }

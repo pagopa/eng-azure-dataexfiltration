@@ -1,19 +1,20 @@
 name: ghcr-build-push
 on:
   workflow_dispatch:
-    
+  push:
+
 jobs:
   ghcr-build-push:
     name: "ghcr-build-push"
     runs-on: "ubuntu-22.04"
-    
+
     permissions:
       packages: write
       contents: read
 
     steps:
       - name: Checkout repository
-      # uses: actions/checkout@v4
+        # uses: actions/checkout@v4
         uses: actions/checkout@3df4ab11eba7bda6032a0b82a6bb43b11571feac
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -33,9 +34,9 @@ jobs:
         with:
           images: ghcr.io/${{ github.repository }}
           tags: |
-            latest
-            type=sha  
-      
+            latest-${{ github.ref_name }}
+            type=sha
+
       - name: Build and push
         # uses: docker/build-push-action@v3
         uses: docker/build-push-action@0565240e2d4ab88bba5387d719585280857ece09
@@ -45,5 +46,3 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-                    
-                    

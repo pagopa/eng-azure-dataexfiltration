@@ -4,11 +4,16 @@ terraform {
       source  = "hashicorp/azurerm"
       version = "=3.71.0"
     }
+    azapi = {
+      source  = "Azure/azapi"
+      version = "=1.12.1"
+    }
   }
   backend "azurerm" {}
 }
 
 provider "azurerm" {
+  skip_provider_registration = true
   features {
     api_management {
       purge_soft_delete_on_destroy = true
@@ -18,13 +23,18 @@ provider "azurerm" {
       prevent_deletion_if_contains_resources = false
     }
   }
-  subscription_id = "ac17914c-79bf-48fa-831e-1359ef74c1d5"
 }
 
-module "v3" {
+provider "azapi" {}
+
+module "__v3__" {
   # source            = "git::https://github.com/pagopa/terraform-azurerm-v3.git?ref=v7.5.0"
   source = "git::github.com/pagopa/terraform-azurerm-v3.git?ref=154b3975a3d7f96a2f314b1215398c36451b5686"
 }
 
 data "azurerm_subscription" "current" {}
 data "azurerm_client_config" "current" {}
+
+resource "random_id" "unique" {
+  byte_length = 3
+}
