@@ -71,22 +71,22 @@ resource "azurerm_route_table" "to_firewall" {
 
 # associate to each main vnet subnet a firewall route table
 
-data "azapi_resource_list" "list_vnet_subnets" {
-  type                   = "Microsoft.Network/virtualNetworks/subnets@2021-02-01"
-  parent_id              = module.vnet.id
-  response_export_values = ["*"]
-}
+# data "azapi_resource_list" "list_vnet_subnets" {
+#   type                   = "Microsoft.Network/virtualNetworks/subnets@2021-02-01"
+#   parent_id              = module.vnet.id
+#   response_export_values = ["*"]
+# }
 
-output "subnets" {
-  value = jsondecode(data.azapi_resource_list.list_vnet_subnets.output).value[*].id
-}
+# output "subnets" {
+#   value = jsondecode(data.azapi_resource_list.list_vnet_subnets.output).value[*].id
+# }
 
-locals {
-  vnet_subnets = toset([for each in jsondecode(data.azapi_resource_list.list_vnet_subnets.output).value[*].id : each if !endswith(each, "GatewaySubnet")])
-}
+# locals {
+#   vnet_subnets = toset([for each in jsondecode(data.azapi_resource_list.list_vnet_subnets.output).value[*].id : each if !endswith(each, "GatewaySubnet")])
+# }
 
-resource "azurerm_subnet_route_table_association" "vnet_to_firewall" {
-  for_each       = local.vnet_subnets
-  subnet_id      = each.key
-  route_table_id = azurerm_route_table.to_firewall.id
-}
+# resource "azurerm_subnet_route_table_association" "vnet_to_firewall" {
+#   for_each       = local.vnet_subnets
+#   subnet_id      = each.key
+#   route_table_id = azurerm_route_table.to_firewall.id
+# }

@@ -13,6 +13,7 @@ terraform {
 }
 
 provider "azurerm" {
+  skip_provider_registration = true
   features {
     api_management {
       purge_soft_delete_on_destroy = true
@@ -22,7 +23,6 @@ provider "azurerm" {
       prevent_deletion_if_contains_resources = false
     }
   }
-  subscription_id = "ac17914c-79bf-48fa-831e-1359ef74c1d5"
 }
 
 provider "azapi" {}
@@ -34,3 +34,7 @@ module "__v3__" {
 
 data "azurerm_subscription" "current" {}
 data "azurerm_client_config" "current" {}
+
+resource "random_id" "unique" {
+  byte_length = 3
+}

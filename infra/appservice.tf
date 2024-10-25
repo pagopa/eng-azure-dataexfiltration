@@ -14,6 +14,11 @@ module "appservice_snet" {
   service_endpoints                         = ["Microsoft.Web"]
 }
 
+resource "azurerm_subnet_route_table_association" "appservice_snet_to_firewall" {
+  subnet_id      = module.appservice_snet.id
+  route_table_id = azurerm_route_table.to_firewall.id
+}
+
 resource "azurerm_service_plan" "app_docker" {
 
   name                = format("%s-plan-appservice-docker", local.project)

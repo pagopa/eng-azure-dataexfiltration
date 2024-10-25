@@ -8,7 +8,7 @@ module "vpn_snet" {
 }
 
 data "azuread_application" "vpn_app" {
-  display_name = format("%s-app-vpn", local.old_project)
+  display_name = format("dvopla-%s-app-vpn", var.env_short) # subscription vpn app
 }
 
 module "vpn" {
