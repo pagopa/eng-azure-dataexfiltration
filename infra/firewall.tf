@@ -39,10 +39,8 @@ resource "azurerm_firewall" "firewall" {
   sku_name            = "AZFW_VNet"
   sku_tier            = "Basic"
   zones               = [1, 2, 3]
-  # dns_servers         = []
-  firewall_policy_id = azurerm_firewall_policy.main.id
-  # private_ip_ranges   = []
-  threat_intel_mode = "Alert"
+  firewall_policy_id  = azurerm_firewall_policy.main.id
+  threat_intel_mode   = "Alert"
 
   ip_configuration {
     name                 = azurerm_public_ip.firewall.name
