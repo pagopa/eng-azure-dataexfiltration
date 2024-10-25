@@ -29,8 +29,8 @@ dns_zone_internal_prefix = "internal.dev.dex"
 # vnet
 #
 
-cidr_vnet                            = ["10.0.0.0/16"]
-firewall_cidr_vnet                   = ["10.1.0.0/16"]
+cidr_vnet          = ["10.0.0.0/16"]
+firewall_cidr_vnet = ["10.1.0.0/16"]
 
 #
 # appgw
@@ -59,4 +59,5 @@ cidr_vpn_subnet = ["10.0.254.0/24"]
 #
 # firewall
 #
-cidr_firewall_subnet = ["10.1.0.0/24"]
+cidr_firewall_subnet            = ["10.1.0.0/24"]
+cidr_firewall_management_subnet = ["10.1.1.0/24"]

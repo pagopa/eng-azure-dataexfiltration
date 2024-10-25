@@ -146,3 +146,9 @@ variable "cidr_firewall_subnet" {
   description = "Address prefixes subnet for firewall"
   default     = null
 }
+
+variable "cidr_firewall_management_subnet" {
+  type        = list(string)
+  description = "Address prefixes subnet for firewall"
+  default     = null
+}
