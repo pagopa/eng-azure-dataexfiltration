@@ -152,3 +152,12 @@ variable "cidr_firewall_management_subnet" {
   description = "Address prefixes subnet for firewall"
   default     = null
 }
+#
+# sni-listener
+#
+
+variable "cidr_sni_listener_subnet" {
+  type        = list(string)
+  description = "Address prefixes subnet for appservice"
+  default     = null
+}

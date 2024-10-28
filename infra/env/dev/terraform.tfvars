@@ -61,3 +61,10 @@ cidr_vpn_subnet = ["10.0.254.0/24"]
 #
 cidr_firewall_subnet            = ["10.1.0.0/24"]
 cidr_firewall_management_subnet = ["10.1.1.0/24"]
+
+#
+# sni-listener
+#
+
+cidr_sni_listener_subnet = ["10.2.0.0/16"]
+
