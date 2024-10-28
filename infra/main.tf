@@ -2,11 +2,23 @@ terraform {
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = "=3.71.0"
+      version = "~>3.95"
+    }
+    azuread = {
+      source  = "hashicorp/azuread"
+      version = "~>2.53"
     }
     azapi = {
       source  = "Azure/azapi"
-      version = "=1.12.1"
+      version = "~>2.0"
+    }
+    null = {
+      source  = "hashicorp/null"
+      version = "~> 3.2"
+    }
+    random = {
+      source  = "hashicorp/random"
+      version = "~> 3.4"
     }
   }
   backend "azurerm" {}
@@ -28,8 +40,8 @@ provider "azurerm" {
 provider "azapi" {}
 
 module "__v3__" {
-  # source            = "git::https://github.com/pagopa/terraform-azurerm-v3.git?ref=v7.5.0"
-  source = "git::github.com/pagopa/terraform-azurerm-v3.git?ref=154b3975a3d7f96a2f314b1215398c36451b5686"
+  # source            = "git::https://github.com/pagopa/terraform-azurerm-v3.git?ref=v8.53.0"
+  source = "git::github.com/pagopa/terraform-azurerm-v3.git?ref=8405da92a68ffc8267fed02a4689e55387299248"
 }
 
 data "azurerm_subscription" "current" {}
@@ -37,4 +49,8 @@ data "azurerm_client_config" "current" {}
 
 resource "random_id" "unique" {
   byte_length = 3
+}
+
+output "project" {
+  value = local.project
 }

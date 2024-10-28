@@ -98,6 +98,32 @@ variable "firewall_cidr_vnet" {
 }
 
 #
+# private endpoint
+#
+
+variable "cidr_private_endpoint_subnet" {
+  type        = list(string)
+  description = "Address prefixes subnet for private endpoints"
+  default     = null
+}
+
+#
+# dns forwarder
+#
+
+variable "cidr_dns_forwarder_vmss_subnet" {
+  type        = list(string)
+  description = "Address prefixes subnet for dns forwarder vm scale set"
+  default     = null
+}
+
+variable "cidr_dns_forwarder_lb_subnet" {
+  type        = list(string)
+  description = "Address prefixes subnet for dns forwarder load balancer"
+  default     = null
+}
+
+#
 # appgw
 #
 
