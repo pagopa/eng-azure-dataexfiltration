@@ -15,7 +15,7 @@ module "sni_listener_vnet" {
   name                = format("%s-sni_listener_vnet", local.project)
   location            = azurerm_resource_group.vnet_sni_listener_rg.location
   resource_group_name = azurerm_resource_group.vnet_sni_listener_rg.name
-  address_space       = var.cidr_vnet
+  address_space       = var.cidr_sni_listener_vnet 
   tags                = var.tags
 }
 

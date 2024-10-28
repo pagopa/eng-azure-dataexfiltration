@@ -155,7 +155,11 @@ variable "cidr_firewall_management_subnet" {
 #
 # sni-listener
 #
-
+variable "cidr_sni_listener_vnet" {
+  type        = list(string)
+  description = "Address prefixes subnet for appservice"
+  default     = null
+}
 variable "cidr_sni_listener_subnet" {
   type        = list(string)
   description = "Address prefixes subnet for appservice"
