@@ -2,7 +2,7 @@ module "firewall_management_snet" {
   source               = "./.terraform/modules/__v3__/subnet/"
   name                 = "AzureFirewallManagementSubnet" # must be exactly this value
   address_prefixes     = var.cidr_firewall_management_subnet
-  resource_group_name  = azurerm_resource_group.firewall_vnet.name
+  resource_group_name  = azurerm_resource_group.firewall_vnet_rg.name
   virtual_network_name = module.firewall_vnet.name
 }
 
@@ -10,14 +10,14 @@ module "firewall_snet" {
   source               = "./.terraform/modules/__v3__/subnet/"
   name                 = "AzureFirewallSubnet" # must be exactly this value
   address_prefixes     = var.cidr_firewall_subnet
-  resource_group_name  = azurerm_resource_group.firewall_vnet.name
+  resource_group_name  = azurerm_resource_group.firewall_vnet_rg.name
   virtual_network_name = module.firewall_vnet.name
 }
 
 resource "azurerm_public_ip" "firewall" {
   name                = format("%s-firewall-pip", local.project)
   location            = var.location
-  resource_group_name = azurerm_resource_group.firewall_vnet.name
+  resource_group_name = azurerm_resource_group.firewall_vnet_rg.name
   allocation_method   = "Static"
   sku                 = "Standard"
   zones               = [1, 2, 3]
@@ -26,7 +26,7 @@ resource "azurerm_public_ip" "firewall" {
 resource "azurerm_public_ip" "firewall_management" {
   name                = format("%s-firewall-management-pip", local.project)
   location            = var.location
-  resource_group_name = azurerm_resource_group.firewall_vnet.name
+  resource_group_name = azurerm_resource_group.firewall_vnet_rg.name
   allocation_method   = "Static"
   sku                 = "Standard"
   zones               = [1, 2, 3]
@@ -35,7 +35,7 @@ resource "azurerm_public_ip" "firewall_management" {
 resource "azurerm_firewall" "firewall" {
   name                = format("%s-firewall", local.project)
   location            = var.location
-  resource_group_name = azurerm_resource_group.firewall_vnet.name
+  resource_group_name = azurerm_resource_group.firewall_vnet_rg.name
   sku_name            = "AZFW_VNet"
   sku_tier            = "Basic"
   zones               = [1, 2, 3]
@@ -59,7 +59,7 @@ resource "azurerm_firewall" "firewall" {
 
 resource "azurerm_firewall_policy" "main" {
   name                = format("%s-firewall-policy", local.project)
-  resource_group_name = azurerm_resource_group.firewall_vnet.name
+  resource_group_name = azurerm_resource_group.firewall_vnet_rg.name
   location            = var.location
 }
 

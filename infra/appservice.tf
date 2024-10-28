@@ -8,7 +8,7 @@ module "appservice_snet" {
   source                                    = "./.terraform/modules/__v3__/subnet/"
   name                                      = format("%s-appservice-snet", local.project)
   address_prefixes                          = var.cidr_appservice_subnet
-  resource_group_name                       = azurerm_resource_group.vnet.name
+  resource_group_name                       = azurerm_resource_group.vnet_rg.name
   virtual_network_name                      = module.vnet.name
   private_endpoint_network_policies_enabled = true
   service_endpoints                         = ["Microsoft.Web"]
