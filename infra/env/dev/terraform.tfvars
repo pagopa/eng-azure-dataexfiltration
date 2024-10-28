@@ -33,6 +33,19 @@ cidr_vnet          = ["10.0.0.0/16"]
 firewall_cidr_vnet = ["10.1.0.0/16"]
 
 #
+# private endpoints
+#
+
+cidr_private_endpoint_subnet = ["10.0.250.0/23"]
+
+#
+# dns forwarder
+#
+
+cidr_dns_forwarder_vmss_subnet = ["10.0.252.0/26"]
+cidr_dns_forwarder_lb_subnet   = ["10.0.252.64/26"]
+
+#
 # appgw
 #
 

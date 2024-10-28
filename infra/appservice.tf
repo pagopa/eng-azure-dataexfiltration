@@ -42,6 +42,8 @@ module "appservice" {
   docker_image        = "ghcr.io/pagopa/eng-data-exfiltration-demo"
   docker_image_tag    = "latest"
   #health_check_path   = "/status"
+  ip_restriction_default_action = "Deny"
+
   app_settings = {
     TIMEOUT_DELAY = 300
     # Integration with private DNS (see more: https://docs.microsoft.com/en-us/answers/questions/85359/azure-app-service-unable-to-resolve-hostname-of-vi.html)

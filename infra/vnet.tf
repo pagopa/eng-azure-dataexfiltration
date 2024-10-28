@@ -13,6 +13,15 @@ module "vnet" {
   tags                = var.tags
 }
 
+module "private_endpoint_snet" {
+  source                                    = "./.terraform/modules/__v3__/subnet/"
+  name                                      = format("%s-private-endpoint-snet", local.project)
+  address_prefixes                          = var.cidr_private_endpoint_subnet
+  resource_group_name                       = azurerm_resource_group.vnet_rg.name
+  virtual_network_name                      = module.vnet.name
+  private_endpoint_network_policies_enabled = true
+}
+
 # resource "azurerm_public_ip" "appgw" {
 #   name                = format("%s-appgw-pip", local.project)
 #   resource_group_name = azurerm_resource_group.vnet_rg.name
@@ -42,7 +51,6 @@ module "firewall_vnet" {
 # peering between main vnet and firewall vnet
 
 module "vnet_peering_main_vnet_firewall_vnet" {
-  location                         = var.location
   source                           = "./.terraform/modules/__v3__/virtual_network_peering/"
   source_resource_group_name       = azurerm_resource_group.vnet_rg.name
   source_virtual_network_name      = module.vnet.name
