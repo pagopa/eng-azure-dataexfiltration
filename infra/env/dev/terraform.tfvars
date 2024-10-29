@@ -89,4 +89,5 @@ dns_allowed_domains = [
   "azure.com.",
   "google.com.",
   "terraform.io.",
+  "github.com.",
 ]
