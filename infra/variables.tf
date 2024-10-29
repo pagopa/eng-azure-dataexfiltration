@@ -206,3 +206,18 @@ variable "dns_allowed_domains" {
   description = "Allowed domain list"
   default     = []
 }
+
+#
+# sni-listener
+#
+variable "cidr_sni_listener_vnet" {
+  type        = list(string)
+  description = "Address prefixes vnet for sni listener"
+  default     = null
+}
+
+variable "cidr_sni_listener_subnet" {
+  type        = list(string)
+  description = "Address prefixes subnet for sni listener"
+  default     = null
+}

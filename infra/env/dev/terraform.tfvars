@@ -91,3 +91,11 @@ dns_allowed_domains = [
   "terraform.io.",
   "github.com.",
 ]
+
+
+#
+# sni-listener
+#
+
+cidr_sni_listener_vnet   = ["10.2.0.0/16"]
+cidr_sni_listener_subnet = ["10.2.0.0/24"]
