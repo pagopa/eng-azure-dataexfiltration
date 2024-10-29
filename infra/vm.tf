@@ -26,7 +26,7 @@ resource "azurerm_network_interface" "vm" {
 
   ip_configuration {
     name                          = format("%s-vm-nic", local.project)
-    subnet_id                     = module.appservice_snet.id
+    subnet_id                     = azurerm_subnet.appservice_snet.id
     private_ip_address_allocation = "Dynamic"
   }
 

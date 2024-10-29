@@ -13,13 +13,16 @@ module "vnet" {
   tags                = var.tags
 }
 
-module "private_endpoint_snet" {
-  source                                    = "./.terraform/modules/__v3__/subnet/"
-  name                                      = format("%s-private-endpoint-snet", local.project)
-  address_prefixes                          = var.cidr_private_endpoint_subnet
-  resource_group_name                       = azurerm_resource_group.vnet_rg.name
-  virtual_network_name                      = module.vnet.name
-  private_endpoint_network_policies_enabled = true
+resource "azurerm_subnet" "private_endpoint_snet" {
+  name                 = format("%s-private-endpoint-snet", local.project)
+  resource_group_name  = azurerm_resource_group.vnet_rg.name
+  virtual_network_name = module.vnet.name
+  address_prefixes     = var.cidr_private_endpoint_subnet
+}
+
+moved {
+  from = module.private_endpoint_snet.azurerm_subnet.this
+  to   = azurerm_subnet.private_endpoint_snet
 }
 
 # resource "azurerm_public_ip" "appgw" {

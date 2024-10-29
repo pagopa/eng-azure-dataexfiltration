@@ -4,18 +4,21 @@ resource "azurerm_resource_group" "rg_appservice" {
   tags     = var.tags
 }
 
-module "appservice_snet" {
-  source                                    = "./.terraform/modules/__v3__/subnet/"
-  name                                      = format("%s-appservice-snet", local.project)
-  address_prefixes                          = var.cidr_appservice_subnet
-  resource_group_name                       = azurerm_resource_group.vnet_rg.name
-  virtual_network_name                      = module.vnet.name
-  private_endpoint_network_policies_enabled = true
-  service_endpoints                         = ["Microsoft.Web"]
+resource "azurerm_subnet" "appservice_snet" {
+  name                 = format("%s-appservice-snet", local.project)
+  resource_group_name  = azurerm_resource_group.vnet_rg.name
+  virtual_network_name = module.vnet.name
+  address_prefixes     = var.cidr_appservice_subnet
+  service_endpoints    = ["Microsoft.Web"]
+}
+
+moved {
+  from = module.appservice_snet.azurerm_subnet.this
+  to   = azurerm_subnet.appservice_snet
 }
 
 resource "azurerm_subnet_route_table_association" "appservice_snet_to_firewall" {
-  subnet_id      = module.appservice_snet.id
+  subnet_id      = azurerm_subnet.appservice_snet.id
   route_table_id = azurerm_route_table.to_firewall.id
 }
 
@@ -57,6 +60,6 @@ module "appservice" {
   # allowed_subnets = [module.apimanager_snet.id, module.app_gw_snet.id]
   allowed_subnets = []
   allowed_ips     = []
-  subnet_id       = module.appservice_snet.id
+  subnet_id       = azurerm_subnet.appservice_snet.id
   tags            = var.tags
 }

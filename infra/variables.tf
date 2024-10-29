@@ -97,6 +97,12 @@ variable "firewall_cidr_vnet" {
   default     = null
 }
 
+variable "dns_cidr_vnet" {
+  type        = list(string)
+  description = "Address prefixes for dns vnet"
+  default     = null
+}
+
 #
 # private endpoint
 #
@@ -177,4 +183,26 @@ variable "cidr_firewall_management_subnet" {
   type        = list(string)
   description = "Address prefixes subnet for firewall"
   default     = null
+}
+
+#
+# dns
+#
+
+variable "cidr_dns_inbound_subnet" {
+  type        = list(string)
+  description = "Address prefixes inbound subnet for dns"
+  default     = null
+}
+
+variable "cidr_dns_outbound_subnet" {
+  type        = list(string)
+  description = "Address prefixes outbound subnet for dns"
+  default     = null
+}
+
+variable "dns_allowed_domains" {
+  type        = list(string)
+  description = "Allowed domain list"
+  default     = []
 }

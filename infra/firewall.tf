@@ -1,17 +1,25 @@
-module "firewall_management_snet" {
-  source               = "./.terraform/modules/__v3__/subnet/"
+resource "azurerm_subnet" "dns_firewall_management_snet" {
   name                 = "AzureFirewallManagementSubnet" # must be exactly this value
-  address_prefixes     = var.cidr_firewall_management_subnet
   resource_group_name  = azurerm_resource_group.firewall_vnet_rg.name
   virtual_network_name = module.firewall_vnet.name
+  address_prefixes     = var.cidr_firewall_management_subnet
 }
 
-module "firewall_snet" {
-  source               = "./.terraform/modules/__v3__/subnet/"
+moved {
+  from = module.firewall_management_snet.azurerm_subnet.this
+  to   = azurerm_subnet.dns_firewall_management_snet
+}
+
+resource "azurerm_subnet" "dns_firewall_snet" {
   name                 = "AzureFirewallSubnet" # must be exactly this value
-  address_prefixes     = var.cidr_firewall_subnet
   resource_group_name  = azurerm_resource_group.firewall_vnet_rg.name
   virtual_network_name = module.firewall_vnet.name
+  address_prefixes     = var.cidr_firewall_subnet
+}
+
+moved {
+  from = module.firewall_snet.azurerm_subnet.this
+  to   = azurerm_subnet.dns_firewall_snet
 }
 
 resource "azurerm_public_ip" "firewall" {
@@ -45,13 +53,13 @@ resource "azurerm_firewall" "firewall" {
   ip_configuration {
     name                 = azurerm_public_ip.firewall.name
     public_ip_address_id = azurerm_public_ip.firewall.id
-    subnet_id            = module.firewall_snet.id
+    subnet_id            = azurerm_subnet.dns_firewall_snet.id
   }
 
   management_ip_configuration {
     name                 = azurerm_public_ip.firewall_management.name
     public_ip_address_id = azurerm_public_ip.firewall_management.id
-    subnet_id            = module.firewall_management_snet.id
+    subnet_id            = azurerm_subnet.dns_firewall_management_snet.id
   }
 
   tags = var.tags
