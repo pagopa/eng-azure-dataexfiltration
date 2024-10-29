@@ -31,12 +31,13 @@ dns_zone_internal_prefix = "internal.dev.dex"
 
 cidr_vnet          = ["10.0.0.0/16"]
 firewall_cidr_vnet = ["10.1.0.0/16"]
+dns_cidr_vnet      = ["10.3.0.0/16"]
 
 #
 # private endpoints
 #
 
-cidr_private_endpoint_subnet = ["10.0.250.0/23"]
+cidr_private_endpoint_subnet = ["10.0.250.0/24"]
 
 #
 # dns forwarder
@@ -74,3 +75,18 @@ cidr_vpn_subnet = ["10.0.254.0/24"]
 #
 cidr_firewall_subnet            = ["10.1.0.0/24"]
 cidr_firewall_management_subnet = ["10.1.1.0/24"]
+
+#
+# dns
+#
+
+cidr_dns_inbound_subnet  = ["10.3.0.0/24"]
+cidr_dns_outbound_subnet = ["10.3.1.0/24"]
+
+dns_allowed_domains = [
+  "pagopa.it.",
+  "microsoftonline.com.",
+  "azure.com.",
+  "google.com.",
+  "terraform.io.",
+]

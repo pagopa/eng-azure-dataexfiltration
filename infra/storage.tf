@@ -20,7 +20,7 @@ resource "azurerm_private_endpoint" "storage_blob" {
   name                = "${azurerm_storage_account.storage.name}-blob-pep"
   location            = azurerm_resource_group.storage_rg.location
   resource_group_name = azurerm_resource_group.storage_rg.name
-  subnet_id           = module.private_endpoint_snet.id
+  subnet_id           = azurerm_subnet.private_endpoint_snet.id
 
   private_service_connection {
     name                           = "${azurerm_storage_account.storage.name}-blob-pep"
