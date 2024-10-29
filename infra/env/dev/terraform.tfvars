@@ -92,7 +92,6 @@ dns_allowed_domains = [
   "github.com.",
 ]
 
-
 #
 # sni-listener
 #
