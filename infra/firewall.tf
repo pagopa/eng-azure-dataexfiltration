@@ -71,6 +71,36 @@ resource "azurerm_firewall_policy" "main" {
   location            = var.location
 }
 
+resource "azurerm_firewall_policy_rule_collection_group" "main" {
+  name                = format("%s-rule-collection-group", local.project)
+  firewall_policy_id  = azurerm_firewall_policy.main.id
+  priority            = 100
+  
+  application_rule_collection {
+    name     = format("%s-application-rule-collection", local.project)
+    action   = "Allow"
+    priority = 100
+    
+    dynamic "rule" {
+    for_each = var.application_rules
+    
+    content {
+      name             = rule.value.name
+      dynamic "protocols" {
+        for_each = rule.value.protocols
+        content {
+             type = protocols.value.type
+             port = protocols.value.port
+        }
+      }
+      source_addresses = rule.value.source_ips
+      destination_fqdns = rule.value.destination_fqdns
+    }
+  }
+  }
+}
+
+
 resource "azurerm_monitor_diagnostic_setting" "firewall" {
   name                       = format("%s-firewall", local.project)
   target_resource_id         = azurerm_firewall.firewall.id
