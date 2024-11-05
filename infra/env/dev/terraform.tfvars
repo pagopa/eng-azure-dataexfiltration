@@ -75,7 +75,18 @@ cidr_vpn_subnet = ["10.0.254.0/24"]
 #
 cidr_firewall_subnet            = ["10.1.0.0/24"]
 cidr_firewall_management_subnet = ["10.1.1.0/24"]
-
+application_rules = [
+  {
+      name              = "allow"
+      protocols         = [
+        {type = "Http", port=80},
+        {type = "Https", port=443}
+      ]
+      source_ips        = ["10.0.0.0/16"]
+      destination_fqdns = ["*.pagopa.it"]
+  }
+]
+ 
 #
 # dns
 #

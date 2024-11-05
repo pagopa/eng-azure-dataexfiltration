@@ -185,6 +185,20 @@ variable "cidr_firewall_management_subnet" {
   default     = null
 }
 
+variable "application_rules" {
+  type        = list(object({
+      name              = optional(string)
+      protocols         = optional(list(object({
+        type = string
+        port = number
+      })))
+      source_ips        = optional(list(string))
+      destination_fqdns = optional(list(string))
+  }))
+  description = "Allowed domain list"
+  default     = [{}]
+}
+
 #
 # dns
 #
