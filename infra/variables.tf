@@ -235,3 +235,13 @@ variable "cidr_sni_listener_subnet" {
   description = "Address prefixes subnet for sni listener"
   default     = null
 }
+
+#
+#function-app
+#
+
+variable "cidr_function_subnet" {
+  type        = list(string)
+  description = "Address prefixes subnet for function"
+  default     = null
+}

@@ -2,15 +2,15 @@ const axios = require('axios');
 
 module.exports = async function (context, req) {
     // Check if the request body contains the URL
-    const url = req.body?.url;
+    const url = req.body.url;
 
-    if (!url) {
-        context.res = {
-            status: 400,
-            body: "Please provide a URL in the request body"
-        };
-        return;
-    }
+    // if (!url) {
+    //     context.res = {
+    //         status: 400,
+    //         body: "Please provide a URL in the request body"
+    //     };
+    //     return;
+    // }
 
     try {
         // Make an HTTP GET request to the provided URL

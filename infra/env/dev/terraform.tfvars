@@ -65,6 +65,12 @@ cidr_apim_subnet = ["10.0.2.0/24"]
 cidr_appservice_subnet = ["10.0.3.0/24"]
 
 #
+#function-app
+#
+
+cidr_function_subnet = ["10.0.4.0/24"]
+
+#
 # vpn
 #
 
@@ -83,7 +89,7 @@ application_rules = [
         {type = "Https", port=443}
       ]
       source_ips        = ["10.0.0.0/16"]
-      destination_fqdns = ["*.pagopa.it"]
+      destination_fqdns = ["*.pagopa.it", "pagopa.it"]
   }
 ]
  
@@ -109,3 +115,4 @@ dns_allowed_domains = [
 
 cidr_sni_listener_vnet   = ["10.2.0.0/16"]
 cidr_sni_listener_subnet = ["10.2.0.0/24"]
+
