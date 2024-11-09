@@ -95,9 +95,12 @@ cidr_dns_inbound_subnet  = ["10.3.0.0/24"]
 cidr_dns_outbound_subnet = ["10.3.1.0/24"]
 
 dns_allowed_domains = [
+  "microsoft.com.", # required for Azure Portal navigation
+  "microsoftonline.com.", # required for Azure Portal navigation
+  "azure.com.", # required for Azure Portal navigation
+  "azure.net.", # required for Azure Portal navigation
+  "loganalytics.io.", # required for log analytics query
   "pagopa.it.",
-  "microsoftonline.com.",
-  "azure.com.",
   "google.com.",
   "terraform.io.",
   "github.com.",
