@@ -5,21 +5,11 @@ resource "azurerm_subnet" "dns_firewall_management_snet" {
   address_prefixes     = var.cidr_firewall_management_subnet
 }
 
-moved {
-  from = module.firewall_management_snet.azurerm_subnet.this
-  to   = azurerm_subnet.dns_firewall_management_snet
-}
-
 resource "azurerm_subnet" "dns_firewall_snet" {
   name                 = "AzureFirewallSubnet" # must be exactly this value
   resource_group_name  = azurerm_resource_group.firewall_vnet_rg.name
   virtual_network_name = module.firewall_vnet.name
   address_prefixes     = var.cidr_firewall_subnet
-}
-
-moved {
-  from = module.firewall_snet.azurerm_subnet.this
-  to   = azurerm_subnet.dns_firewall_snet
 }
 
 resource "azurerm_public_ip" "firewall" {
@@ -72,31 +62,31 @@ resource "azurerm_firewall_policy" "main" {
 }
 
 resource "azurerm_firewall_policy_rule_collection_group" "main" {
-  name                = format("%s-rule-collection-group", local.project)
-  firewall_policy_id  = azurerm_firewall_policy.main.id
-  priority            = 100
-  
+  name               = format("%s-rule-collection-group", local.project)
+  firewall_policy_id = azurerm_firewall_policy.main.id
+  priority           = 100
+
   application_rule_collection {
     name     = format("%s-application-rule-collection", local.project)
     action   = "Allow"
     priority = 100
-    
+
     dynamic "rule" {
-    for_each = var.application_rules
-    
-    content {
-      name             = rule.value.name
-      dynamic "protocols" {
-        for_each = rule.value.protocols
-        content {
-             type = protocols.value.type
-             port = protocols.value.port
+      for_each = var.application_rules
+
+      content {
+        name = rule.value.name
+        dynamic "protocols" {
+          for_each = rule.value.protocols
+          content {
+            type = protocols.value.type
+            port = protocols.value.port
+          }
         }
+        source_addresses  = rule.value.source_ips
+        destination_fqdns = rule.value.destination_fqdns
       }
-      source_addresses = rule.value.source_ips
-      destination_fqdns = rule.value.destination_fqdns
     }
-  }
   }
 }
 

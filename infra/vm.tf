@@ -18,6 +18,13 @@ resource "azurerm_key_vault_secret" "vm_password" {
   tags = var.tags
 }
 
+resource "azurerm_subnet" "vm_snet" {
+  name                 = format("%s-vm-snet", local.project)
+  resource_group_name  = azurerm_resource_group.vnet_rg.name
+  virtual_network_name = module.vnet.name
+  address_prefixes     = var.cidr_vm_subnet
+}
+
 resource "azurerm_network_interface" "vm" {
   name                 = format("%s-vm-nic", local.project)
   location             = var.location
@@ -26,7 +33,7 @@ resource "azurerm_network_interface" "vm" {
 
   ip_configuration {
     name                          = format("%s-vm-nic", local.project)
-    subnet_id                     = azurerm_subnet.appservice_snet.id
+    subnet_id                     = azurerm_subnet.vm_snet.id
     private_ip_address_allocation = "Dynamic"
   }
 
