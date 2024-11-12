@@ -62,7 +62,13 @@ cidr_apim_subnet = ["10.0.2.0/24"]
 # appservice
 #
 
-cidr_appservice_subnet = ["10.0.3.0/24"]
+cidr_vm_subnet = ["10.0.3.0/24"]
+
+#
+#function-app
+#
+
+cidr_function_subnet = ["10.0.4.0/24"]
 
 #
 # vpn
@@ -77,16 +83,16 @@ cidr_firewall_subnet            = ["10.1.0.0/24"]
 cidr_firewall_management_subnet = ["10.1.1.0/24"]
 application_rules = [
   {
-      name              = "allow"
-      protocols         = [
-        {type = "Http", port=80},
-        {type = "Https", port=443}
-      ]
-      source_ips        = ["10.0.0.0/16"]
-      destination_fqdns = ["*.pagopa.it"]
+    name = "allow"
+    protocols = [
+      { type = "Http", port = 80 },
+      { type = "Https", port = 443 }
+    ]
+    source_ips        = ["10.0.0.0/16"]
+    destination_fqdns = ["*.pagopa.it", "pagopa.it"]
   }
 ]
- 
+
 #
 # dns
 #
@@ -95,9 +101,12 @@ cidr_dns_inbound_subnet  = ["10.3.0.0/24"]
 cidr_dns_outbound_subnet = ["10.3.1.0/24"]
 
 dns_allowed_domains = [
+  "microsoft.com.",       # required for Azure Portal navigation
+  "microsoftonline.com.", # required for Azure Portal navigation
+  "azure.com.",           # required for Azure Portal navigation
+  "azure.net.",           # required for Azure Portal navigation
+  "loganalytics.io.",     # required for log analytics query
   "pagopa.it.",
-  "microsoftonline.com.",
-  "azure.com.",
   "google.com.",
   "terraform.io.",
   "github.com.",
@@ -109,3 +118,4 @@ dns_allowed_domains = [
 
 cidr_sni_listener_vnet   = ["10.2.0.0/16"]
 cidr_sni_listener_subnet = ["10.2.0.0/24"]
+

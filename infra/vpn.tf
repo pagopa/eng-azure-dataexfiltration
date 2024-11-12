@@ -5,11 +5,6 @@ resource "azurerm_subnet" "vpn_snet" {
   address_prefixes     = var.cidr_vpn_subnet
 }
 
-moved {
-  from = module.vpn_snet.azurerm_subnet.this
-  to   = azurerm_subnet.vpn_snet
-}
-
 data "azuread_application" "vpn_app" {
   display_name = format("dvopla-%s-app-vpn", var.env_short) # subscription vpn app
 }

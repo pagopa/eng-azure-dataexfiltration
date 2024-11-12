@@ -153,9 +153,9 @@ variable "cidr_apim_subnet" {
 # appservice
 #
 
-variable "cidr_appservice_subnet" {
+variable "cidr_vm_subnet" {
   type        = list(string)
-  description = "Address prefixes subnet for appservice"
+  description = "Address prefixes subnet for vm"
   default     = null
 }
 
@@ -186,14 +186,14 @@ variable "cidr_firewall_management_subnet" {
 }
 
 variable "application_rules" {
-  type        = list(object({
-      name              = optional(string)
-      protocols         = optional(list(object({
-        type = string
-        port = number
-      })))
-      source_ips        = optional(list(string))
-      destination_fqdns = optional(list(string))
+  type = list(object({
+    name = optional(string)
+    protocols = optional(list(object({
+      type = string
+      port = number
+    })))
+    source_ips        = optional(list(string))
+    destination_fqdns = optional(list(string))
   }))
   description = "Allowed domain list"
   default     = [{}]
@@ -233,5 +233,15 @@ variable "cidr_sni_listener_vnet" {
 variable "cidr_sni_listener_subnet" {
   type        = list(string)
   description = "Address prefixes subnet for sni listener"
+  default     = null
+}
+
+#
+#function-app
+#
+
+variable "cidr_function_subnet" {
+  type        = list(string)
+  description = "Address prefixes subnet for function"
   default     = null
 }

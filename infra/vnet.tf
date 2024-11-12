@@ -20,21 +20,6 @@ resource "azurerm_subnet" "private_endpoint_snet" {
   address_prefixes     = var.cidr_private_endpoint_subnet
 }
 
-moved {
-  from = module.private_endpoint_snet.azurerm_subnet.this
-  to   = azurerm_subnet.private_endpoint_snet
-}
-
-# resource "azurerm_public_ip" "appgw" {
-#   name                = format("%s-appgw-pip", local.project)
-#   resource_group_name = azurerm_resource_group.vnet_rg.name
-#   location            = azurerm_resource_group.vnet_rg.location
-#   sku                 = "Standard"
-#   allocation_method   = "Static"
-#   zones               = [1, 2, 3]
-#   tags                = var.tags
-# }
-
 # firewall vnet (for Azure Firewall)
 resource "azurerm_resource_group" "firewall_vnet_rg" {
   name     = format("%s-firewall-vnet-rg", local.project)
